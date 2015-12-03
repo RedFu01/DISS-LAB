@@ -4,40 +4,40 @@ import de.tuhh.diss.warehouse.sim.StoragePlace;
 
 public class Slot implements StoragePlace {	
 	
-	private int _number = 0;
-	private int _width =0;
-	private int _height =0;
-	private int _depth = 0;
-	private int _positionX =0;
-	private int _positionY =0;
+	private int number = 0;
+	private int width =0;
+	private int height =0;
+	private int depth = 0;
+	private int positionX =0;
+	private int positionY =0;
 	
 	public Slot(int number, int width, int height, int depth, int positionX, int positionY){
-		this._number = number;
+		this.number = number;
 		this._width = width;
-		this._height = height;
-		this._depth = depth;
-		this._positionX = positionX;
-		this._positionY = positionY;
+		this.height = height;
+		this.depth = depth;
+		this.positionX = positionX;
+		this.positionY = positionY;
 	}
 	
 	public int getNumber() {
-		return this._number; 
+		return this.number; 
 	}
 
 	public int getWidth() {
-		return this._width; 
+		return this.width; 
 	}
 
 	public int getHeight() {
-		return this._height;
+		return this.height;
 	}
 	
 	public int getDepth() {
-		return this._depth;  
+		return this.depth;  
 	}
 
 	public int getPositionX() {
-		return this._positionX;  
+		return this.positionX;  
 	}
 	
 	public int getPositionY() {
