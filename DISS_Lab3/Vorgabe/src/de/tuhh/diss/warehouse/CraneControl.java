@@ -1,8 +1,13 @@
 package de.tuhh.diss.warehouse;
 
+import de.tuhh.diss.warehouse.sim.PhysicalCrane;
 import de.tuhh.diss.warehouse.sim.StorageElement;
 
 public class CraneControl {
+	
+	public CraneControl(PhysicalCrane crane){
+	
+	}
 	
 	public void storePacket(int x, int y, StorageElement packet) {
 		
@@ -13,6 +18,6 @@ public class CraneControl {
 	}
 	
 	public void shutdown() {
-		
+				
 	}   
 }
