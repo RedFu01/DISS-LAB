@@ -1,0 +1,62 @@
+package de.tuhh.diss.warehouse;
+
+import de.tuhh.diss.warehouse.sim.HighBayWarehouse;
+import de.tuhh.diss.warehouse.sim.PhysicalWarehouse;
+import de.tuhh.diss.warehouse.sim.StorageException;
+import de.tuhh.diss.warehouse.sim.StoragePlace;
+
+public class WarehouseManagement implements HighBayWarehouse {
+	private CraneControl crane;
+	private PhysicalWarehouse warehouse;
+	
+	public WarehouseManagement(PhysicalWarehouse warehouse){
+		this.warehouse = warehouse;
+		this.crane = new CraneControl(this.warehouse.getCrane());
+	}
+	
+	private Slot findSlotByPacket(Packet packet){
+		StoragePlace[] storagePlaces = this.warehouse.getStoragePlacesAsArray();
+		for(int i=0; i< storagePlaces.length; i++){
+			
+		}
+	}
+	
+	private int getVolumeOffset(Packet packet, Slot slot){
+		return slot.getVolume() - packet.getVolume();
+	}
+	
+	private Slot getBestStoragePlace(Packet packet){
+		StoragePlace[] storagePlaces = this.warehouse.getStoragePlacesAsArray();
+		int currentVolumeOffset =1000;
+		Slot slot = null;
+		for( int i=0; i< storagePlaces.length; i++){
+			if(packet.fitsInSlot((Slot)storagePlaces[i]) && getVolumeOffset(packet, (Slot) storagePlaces[i]) < currentVolumeOffset){
+				slot = (Slot) storagePlaces[i];
+			}
+		}
+		return slot;
+	}
+	
+	public int storePacket(int width, int height, int depth, String description) throws StorageException {
+		Packet packet = new Packet(/*width, height, depth, description*/);
+		Slot slot = getBestStoragePlace(packet);
+		
+		slot.setContainedPacket(packet);
+		this.crane.storePacket(slot.getPositionX(), slot.getPositionY(), packet);
+		
+		return slot.getId();
+				
+	}
+	
+	public void retrievePacket(int id) throws StorageException {
+
+	}
+	
+	public Packet[] getPackets() {
+		return null; // TODO: Replace this with your own code. 
+	}
+	
+	public void shutdown() {
+	crane.shutdown();
+	}
+}
