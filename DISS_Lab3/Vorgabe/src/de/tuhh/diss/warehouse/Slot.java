@@ -13,7 +13,7 @@ public class Slot implements StoragePlace {
 	
 	public Slot(int number, int width, int height, int depth, int positionX, int positionY){
 		this.number = number;
-		this._width = width;
+		this.width = width;
 		this.height = height;
 		this.depth = depth;
 		this.positionX = positionX;
