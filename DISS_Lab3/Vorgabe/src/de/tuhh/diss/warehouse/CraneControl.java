@@ -2,24 +2,25 @@ package de.tuhh.diss.warehouse;
 
 import de.tuhh.diss.warehouse.sim.StorageElement;
 import de.tuhh.diss.warehouse.sim.PhysicalCrane;
+import de.tuhh.diss.warehouse.sim.CraneException;
 
 public class CraneControl {
 
 	// Define an instance variable crane as a type of PhysicalCrane
-	private PhysicalCrane crane;
+	public PhysicalCrane crane;
 
 	public CraneControl(PhysicalCrane cr) {
 		crane = cr;
 	}
 
 	// Drive the crane to the desired position of (x,y)
-	private void driveTo(int x, int y) {
+	public void driveTo(int x, int y) {
 		driveToX(x);
 		driveToY(y);
 	}
 
 	// Drive the crane to the desired position of (x)
-	private void driveToX(int x) {
+	public void driveToX(int x) {
 		int initialX = crane.getPositionX();
 		int targetX = x;
 
@@ -43,7 +44,7 @@ public class CraneControl {
 	}
 
 	// Drive the crane to the desired position of (y)
-	private void driveToY(int y) {
+	public void driveToY(int y) {
 		int initialY = crane.getPositionY();
 		int targetY = y;
 
@@ -67,30 +68,30 @@ public class CraneControl {
 	}
 
 	// Drive the crane to the loading/unloading bay
-	private void driveToLoadingPosition() {
+	public void driveToLoadingPosition() {
 		int LoadPosX = crane.getLoadingPosX();
 		int LoadPosY = crane.getLoadingPosY();
 
 		driveTo(LoadPosX, LoadPosY);
 	}
 
-	private void stallTestX() {
-		// Exception
+	public void stallTestX() {
+		// Exception to detect whether the crane is stalled in x-direction movement
 		if (crane.isStalledX() == true) {
-			throw new IllegalArgumentException("Crane stalled at x = " + crane.getPositionX());
+			throw new CraneException("Crane is currently stalled at x = " + crane.getPositionX());
 		}
 	}
 
-	private void stallTestY() {
-		// Exception
+	public void stallTestY() {
+		// Exception to detect whether the crane is stalled in y-direction movement
 		if (crane.isStalledY() == true) {
-			throw new IllegalArgumentException("Crane stalled at y = " + crane.getPositionY());
+			throw new CraneException("Crane is currently stalled at y = " + crane.getPositionY());
 		}
 	}
 
 	public void storePacket(int x, int y, StorageElement packet) {
 		if (packet == null) {
-			throw new IllegalArgumentException(
+			throw new CraneException(
 					"CraneControl.storePacket - there is no packet in the crane at the moment.");
 		}
 
@@ -117,4 +118,5 @@ public class CraneControl {
 	public void shutdown() {
 		crane.shutdown();
 	}
+	
 }
