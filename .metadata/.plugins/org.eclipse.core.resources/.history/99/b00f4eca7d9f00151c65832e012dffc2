@@ -1,0 +1,107 @@
+package de.tuhh.diss.warehouse;
+
+import de.tuhh.diss.warehouse.sim.StorageElement;
+import de.tuhh.diss.warehouse.sim.PhysicalCrane;
+
+public class CraneControl {
+
+	private PhysicalCrane crane; // Define an instance variable for CraneControl class
+
+	public CraneControl(PhysicalCrane cr) {
+		crane = cr;
+	}
+
+	private void driveTo(int x, int y) {
+		driveToX(x);
+		driveToY(y);
+	}
+
+	private void driveToX(int x) {
+		int initialX = crane.getPositionX();
+		int targetX = x;
+
+		if (initialX < targetX) {
+			while (initialX < targetX) {
+				crane.forward();
+				stallTestX();
+			}
+		}
+
+		if (initialX > targetX) {
+			while (initialX > targetX) {
+				crane.backward();
+				stallTestX();
+			}
+		}
+
+		else {
+			crane.stopX();
+		}
+	}
+
+	private void driveToY(int y) {
+		int initialY = crane.getPositionY();
+		int targetY = y;
+
+		if (initialY < targetY) {
+			while (initialY < targetY) {
+				crane.up();
+				stallTestY();
+			}
+		}
+
+		if (initialY > targetY) {
+			while (initialY > targetY) {
+				crane.down();
+				stallTestY();
+			}
+		}
+
+		else {
+			crane.stopY();
+		}
+	}
+
+	private void driveToLoadingPosition() {
+		int LoadPosX = crane.getLoadingPosX();
+		int LoadPosY = crane.getLoadingPosY();
+
+		driveTo(LoadPosX, LoadPosY);
+	}
+
+	private void stallTestX() {
+		// Exception
+		if (crane.isStalledX() == true) {
+			throw new IllegalArgumentException("Crane stalled at x = " + crane.getPositionX());
+		}
+	}
+
+	private void stallTestY() {
+		// Exception
+		if (crane.isStalledY() == true) {
+			throw new IllegalArgumentException("Crane stalled at y = " + crane.getPositionY());
+		}
+	}
+
+	public void storePacket(int x, int y, StorageElement packet) {
+		driveToLoadingPosition(); // Drive to the pick up desk
+		crane.loadElement(packet); 
+		
+		driveToLoadingPosition(); // Drive to the rack
+		crane.storeElement();
+		
+	}
+
+	public StorageElement retrievePacket(int x, int y) {
+		driveToLoadingPosition(); // Drive to the rack
+		crane.retrieveElement();
+		
+		driveToLoadingPosition(); // Drive to the pick up desk
+		crane.storeElement();
+		return null;
+	}
+
+	public void shutdown() {
+		crane.shutdown();
+	}
+}
